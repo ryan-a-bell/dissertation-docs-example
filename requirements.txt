@@ -1,0 +1,7 @@
+mkdocs
+mkdocs-material
+mkdocs-jupyter
+mkdocs-gen-files
+git-revision-date-localized
+pymdown-extensions
+pandas
