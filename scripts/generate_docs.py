@@ -2,6 +2,7 @@ import os
 import shutil
 from pathlib import Path
 import pandas as pd
+import yaml
 from pathspec import PathSpec
 
 SRC_DIR = Path('src')
@@ -56,7 +57,59 @@ def generate_index(processed_paths):
         f.write('# Generated Documentation Index\n\n')
         for rel in sorted(processed_paths):
             page = rel.with_suffix('.md') if rel.suffix != '.ipynb' else rel
-            f.write(f'- [{page.stem}]({page.as_posix()})\n')
+        f.write(f'- [{page.stem}]({page.as_posix()})\n')
+
+
+def _insert_nav(nav_list, parts, target):
+    """Recursively insert a file path into the nav structure."""
+    title = parts[0].replace('-', ' ').title()
+    if len(parts) == 1:
+        nav_list.append({title: target})
+        return
+
+    # locate or create sublist for this directory
+    for item in nav_list:
+        if isinstance(item, dict) and title in item:
+            sub = item[title]
+            break
+    else:
+        sub = []
+        nav_list.append({title: sub})
+
+    _insert_nav(sub, parts[1:], target)
+
+
+def generate_nav():
+    """Walk DOCS_DIR and build a nav structure."""
+    files = []
+    for path in DOCS_DIR.rglob('*'):
+        if not path.is_file():
+            continue
+        if 'assets' in path.parts or 'stylesheets' in path.parts:
+            continue
+        if path.suffix not in {'.md', '.ipynb'}:
+            continue
+        files.append(path.relative_to(DOCS_DIR))
+
+    nav = []
+    for rel in sorted(files):
+        if rel.as_posix() == 'index.md':
+            nav.insert(0, {'Home': rel.as_posix()})
+        else:
+            _insert_nav(nav, list(rel.parts), rel.as_posix())
+    return nav
+
+
+def merge_nav(nav):
+    nav_text = yaml.dump({'nav': nav}, sort_keys=False)
+    with open('mkdocs.yml', 'r') as f:
+        content = f.read()
+    idx = content.find('nav:')
+    if idx != -1:
+        content = content[:idx]
+    content = content.rstrip() + '\n' + nav_text
+    with open('mkdocs.yml', 'w') as f:
+        f.write(content)
 
 
 def copy_source_tree():
@@ -109,6 +162,8 @@ def main():
     generate_index(processed)
     copy_source_tree()
     print('Processed', len(processed), 'files')
+    nav = generate_nav()
+    merge_nav(nav)
 
 
 if __name__ == '__main__':
