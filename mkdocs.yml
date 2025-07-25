@@ -41,5 +41,4 @@ nav:
   - Home: index.md
   - Getting Started:
       - Overview: getting-started/index.md
-  - API:
-      - Package: api/index.md
+  - Guide: guide.md
