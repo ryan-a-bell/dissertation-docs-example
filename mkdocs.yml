@@ -14,7 +14,7 @@ theme:
     - toc.integrate
 
 extra_css:
-  - assets/css/extra.css
+  - stylesheets/extra.css
 extra_javascript:
   - assets/js/extra.js
 
