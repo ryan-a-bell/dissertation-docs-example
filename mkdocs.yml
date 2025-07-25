@@ -1,0 +1,18 @@
+site_name: Dissertation Docs Example
+site_url: https://example.com
+nav:
+  - Home: index.md
+  - Generated Docs: generated/index.md
+theme:
+  name: material
+extra_css:
+  - stylesheets/extra.css
+plugins:
+  - search
+  - mkdocs-jupyter
+  - mkdocs-gen-files
+  - git-revision-date-localized
+markdown_extensions:
+  - pymdownx.extra
+  - pymdownx.highlight
+  - pymdownx.superfences
