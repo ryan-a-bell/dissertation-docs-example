@@ -1,5 +1,5 @@
 site_name: Dissertation Docs Example
-site_url: https://example.com
+site_url: https://ryan-a-bell.github.io/dissertation-docs-example/
 nav:
   - Home: index.md
   - Generated Docs: generated/index.md
