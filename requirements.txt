@@ -6,3 +6,5 @@ mkdocs-git-revision-date-localized-plugin
 pymdown-extensions
 pandas
 tabulate
+mkdocs-same-dir
+pyyaml
