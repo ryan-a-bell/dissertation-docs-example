@@ -5,3 +5,4 @@ mkdocs-gen-files
 mkdocs-git-revision-date-localized-plugin
 pymdown-extensions
 pandas
+tabulate
