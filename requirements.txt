@@ -2,6 +2,6 @@ mkdocs
 mkdocs-material
 mkdocs-jupyter
 mkdocs-gen-files
-git-revision-date-localized
+mkdocs-git-revision-date-localized-plugin
 pymdown-extensions
 pandas
