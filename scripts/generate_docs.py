@@ -3,11 +3,12 @@ import shutil
 from pathlib import Path
 import pandas as pd
 import yaml
+from pathspec import PathSpec
 
 SRC_DIR = Path('src')
-DOCS_DIR = Path('docs')
-GENERATED_DIR = DOCS_DIR / 'generated'
-ASSETS_PDF_DIR = DOCS_DIR / 'assets/pdfs'
+GENERATED_DIR = Path('docs/generated')
+ASSETS_PDF_DIR = Path('docs/assets/pdfs')
+DOCS_SRC_DIR = Path('docs/src')
 
 
 def clean_generated():
@@ -111,6 +112,35 @@ def merge_nav(nav):
         f.write(content)
 
 
+def copy_source_tree():
+    """Copy the contents of SRC_DIR to DOCS_SRC_DIR respecting .gitignore."""
+    if DOCS_SRC_DIR.exists():
+        shutil.rmtree(DOCS_SRC_DIR)
+
+    # Load gitignore patterns
+    gitignore_path = Path('.gitignore')
+    if gitignore_path.exists():
+        with gitignore_path.open() as f:
+            spec = PathSpec.from_lines('gitwildmatch', f)
+    else:
+        spec = PathSpec.from_lines('gitwildmatch', [])
+
+    for path in SRC_DIR.rglob('*'):
+        rel_to_root = path.relative_to(Path('.'))
+        check_path = rel_to_root.as_posix()
+        if path.is_dir():
+            check_path += '/'
+        if spec.match_file(check_path):
+            continue
+
+        dest = DOCS_SRC_DIR / path.relative_to(SRC_DIR)
+        if path.is_dir():
+            dest.mkdir(parents=True, exist_ok=True)
+        else:
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(path, dest)
+
+
 def main():
     clean_generated()
     processed = []
@@ -130,6 +160,7 @@ def main():
                 continue
             processed.append(rel_path)
     generate_index(processed)
+    copy_source_tree()
     print('Processed', len(processed), 'files')
     nav = generate_nav()
     merge_nav(nav)

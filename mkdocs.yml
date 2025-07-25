@@ -14,7 +14,7 @@ theme:
     - toc.integrate
 
 extra_css:
-  - assets/css/extra.css
+  - stylesheets/extra.css
 extra_javascript:
   - assets/js/extra.js
 
@@ -41,5 +41,4 @@ nav:
   - Home: index.md
   - Getting Started:
       - Overview: getting-started/index.md
-  - API:
-      - Package: api/index.md
+  - Guide: guide.md
