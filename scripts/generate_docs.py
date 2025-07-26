@@ -6,9 +6,10 @@ import yaml
 from pathspec import PathSpec
 
 SRC_DIR = Path('src')
-GENERATED_DIR = Path('docs/generated')
-ASSETS_PDF_DIR = Path('docs/assets/pdfs')
-DOCS_SRC_DIR = Path('docs/src')
+DOCS_DIR = Path('docs')
+GENERATED_DIR = DOCS_DIR / 'generated'
+ASSETS_PDF_DIR = DOCS_DIR / 'assets/pdfs'
+DOCS_SRC_DIR = DOCS_DIR / 'src'
 
 
 def clean_generated():
