@@ -8,3 +8,4 @@ pandas
 tabulate
 mkdocs-same-dir
 pyyaml
+pathspec

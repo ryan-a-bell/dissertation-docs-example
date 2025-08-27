@@ -22,7 +22,6 @@ extra_javascript:
 plugins:
   - search
   - mkdocs-jupyter
-  - mkdocs-gen-files
   - git-revision-date-localized
 
 markdown_extensions:
@@ -36,9 +35,25 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - attr_list
   - footnotes
-
 nav:
-  - Home: index.md
-  - Getting Started:
-      - Overview: getting-started/index.md
-  - Guide: guide.md
+- Home: index.md
+- Generated:
+  - Data:
+    - Sample.Md: generated/data/sample.md
+  - Index.Md: generated/index.md
+  - New_Notebook.Ipynb: generated/new_notebook.ipynb
+  - Notebooks:
+    - Sample_Notebook.Ipynb: generated/notebooks/sample_notebook.ipynb
+  - Pdfs:
+    - Sample.Md: generated/pdfs/sample.md
+  - Text:
+    - Readme.Md: generated/text/readme.md
+- Getting Started:
+  - Index.Md: getting-started/index.md
+- Guide.Md: guide.md
+- Src:
+  - New_Notebook.Ipynb: src/new_notebook.ipynb
+  - Notebooks:
+    - Sample_Notebook.Ipynb: src/notebooks/sample_notebook.ipynb
+  - Text:
+    - Readme.Md: src/text/readme.md
