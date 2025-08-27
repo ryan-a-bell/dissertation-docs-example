@@ -29,5 +29,7 @@ jobs:
         run: pip install -r requirements.txt
       - name: Generate documentation
         run: python scripts/generate_docs.py
+      - name: Build documentation
+        run: mkdocs build --strict
       - name: Deploy to GitHub Pages
-        run: mkdocs gh-deploy --force
+        run: mkdocs gh-deploy --force --clean
